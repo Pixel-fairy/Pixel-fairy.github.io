@@ -4,7 +4,257 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ajit Joshi Business Card</title>
-  <link rel="stylesheet" href="style_ajit_joshi_business_card.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      background: #f3f1ec;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .card-wrapper {
+      perspective: 1000px;
+      width: 100%;
+      max-width: 950px;
+      padding: 10px;
+    }
+
+    .card {
+      width: 100%;
+      aspect-ratio: 1.6 / 1;
+      position: relative;
+      border-radius: 32px;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      cursor: pointer;
+    }
+
+    .card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 1s;
+    }
+
+    .card-side {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 32px;
+      backface-visibility: hidden;
+      background: #f3f1ec;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .card-side.back {
+      transform: rotateY(180deg);
+    }
+
+    .highlight {
+      background: radial-gradient(circle, rgba(255,0,102,0.3), transparent 60%);
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      border-radius: 50%;
+    }
+
+    .orbital {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 220px;
+      height: 120px;
+      border: 2px solid #000;
+      border-radius: 50%;
+      transform: translate(-50%, -50%) rotate(-20deg);
+    }
+
+    .logo-title {
+      font-size: 2.4em;
+      letter-spacing: 0.1em;
+      position: relative;
+      z-index: 1;
+      word-break: break-word;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .info-section {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .left-info, .right-info {
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 20px;
+      height: 100%;
+    }
+
+    .left-info {
+      border-right: 1px solid rgba(0,0,0,0.15);
+    }
+
+    .right-info {
+      align-items: flex-start;
+    }
+
+    .name {
+      font-size: 2.6em;
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.1;
+      margin: 0;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      user-select: all;
+      transition: background-color 0.2s ease;
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .info-item:hover {
+      background-color: rgba(255,0,102,0.1);
+    }
+
+    .info-item img {
+      width: 22px;
+      height: 22px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .info-item span, .info-item a {
+      text-decoration: none;
+      color: #000;
+      line-height: 1.3;
+      pointer-events: none;
+    }
+
+    .message {
+      margin-top: 30px;
+      font-size: 1rem;
+      color: #555;
+      text-align: center;
+    }
+
+    .copy-message {
+      color: #e6005c;
+      background: #fff3f8;
+      border: 1px solid #e6005c;
+      border-radius: 8px;
+      padding: 8px 16px;
+      display: none;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      min-width: 180px;
+      text-align: center;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 900px) {
+      .card {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 1.6 / 1;
+        height: auto;
+      }
+
+      .card-side {
+        padding: 20px;
+      }
+
+      .info-section {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+
+      .left-info {
+        border-right: 1px solid rgba(0,0,0,0.15);
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .right-info {
+        align-items: flex-start;
+      }
+
+      .name {
+        font-size: 2em;
+      }
+
+      .logo-title {
+        font-size: 2em;
+      }
+
+      .info-item {
+        font-size: 1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .logo-title {
+        font-size: 1.5em;
+      }
+
+      .name {
+        font-size: 1.6em;
+      }
+
+      .info-item {
+        font-size: 0.95em;
+      }
+
+      .info-section {
+        flex-direction: row;
+        flex-wrap: nowrap;
+      }
+
+      .left-info, .right-info {
+        padding: 10px;
+      }
+    }
+  </style>
 </head>
 <body>
   <div class="card-wrapper">
@@ -23,20 +273,16 @@
             </div>
             <div class="right-info">
               <div class="info-item" data-type="phone" data-value="915-855-5745">
-  <img src="phone.svg" alt="Phone">
-  <span>915-855-5745</span>
-</div>
-
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'/%3E%3C/svg%3E" alt="Phone">
+                <span>915-855-5745</span>
               </div>
               <div class="info-item" data-type="email" data-value="ajit7275@gmail.com">
-                <img src="https://img.icons8.com/ios-filled/50/000000/new-post.png" alt="Email" />
-                <a href="mailto:ajit7275@gmail.com">ajit7275@gmail.com</a>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z'/%3E%3C/svg%3E" alt="Email" />
+                <span>ajit7275@gmail.com</span>
               </div>
               <div class="info-item" data-type="address" data-value="S 2 Vasudev Arcade, Opposite Shivaji Maidan, Bicholim-403504">
-                <img src="https://img.icons8.com/ios-filled/50/000000/marker.png" alt="Location" />
-                <a href="https://www.google.com/maps?q=S+2+Vasudev+Arcade,+Opposite+Shivaji+Maidan,+Bicholim-403504" target="_blank">
-                  S 2 Vasudev Arcade,<br>Opposite Shivaji Maidan,<br>Bicholim-403504
-                </a>
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='currentColor'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'/%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M15 11a3 3 0 11-6 0 3 3 0 016 0z'/%3E%3C/svg%3E" alt="Location" />
+                <span>S 2 Vasudev Arcade,<br>Opposite Shivaji Maidan,<br>Bicholim-403504</span>
               </div>
             </div>
           </div>
@@ -44,8 +290,158 @@
       </div>
     </div>
   </div>
-
   <div class="message">Click the card to flip and view contact details</div>
   <div class="copy-message" id="copyMessage"></div>
-<script src="javascript_ajit_joshi_business_card.js"></script>
+
+  <script>
+    // Card flip functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const card = document.getElementById('businessCard');
+      
+      // Card flip on click
+      card.addEventListener('click', function(e) {
+        // Don't flip if clicking on info items
+        if (!e.target.closest('.info-item')) {
+          this.classList.toggle('is-flipped');
+        }
+      });
+
+      // Contact info click handlers
+      const infoItems = document.querySelectorAll('.info-item');
+      
+      if (infoItems.length === 0) {
+        console.log('No .info-item elements found');
+        return;
+      }
+      
+      console.log('Found', infoItems.length, 'info items');
+
+      infoItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+          e.stopPropagation(); // Prevent card flip
+          
+          const type = this.getAttribute('data-type');
+          const value = this.getAttribute('data-value');
+          
+          console.log('Clicked item:', { type, value });
+          
+          if (!type || !value) {
+            console.log('Missing data-type or data-value attributes');
+            return;
+          }
+
+          let link;
+          
+          if (type === 'phone') {
+            // Create vCard for phone click
+            const name = "Ajit Joshi";
+            const phone = "915-855-5745";
+            const email = "ajit7275@gmail.com";
+            const address = "S 2 Vasudev Arcade, Opposite Shivaji Maidan, Bicholim-403504";
+            
+            const vcard = [
+              "BEGIN:VCARD",
+              "VERSION:3.0",
+              "FN:" + name,
+              "TEL;TYPE=CELL:" + phone,
+              "EMAIL:" + email,
+              "ADR;TYPE=WORK:;;" + address + ";;;;",
+              "ORG:PHARMAINDS & EQUIPMENTS",
+              "END:VCARD"
+            ].join("\r\n");
+            
+            try {
+              const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = "Ajit_Joshi_Contact.vcf";
+              a.style.display = 'none';
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+              
+              showCopyMessage('Contact saved!');
+              console.log('vCard download triggered');
+            } catch (error) {
+              console.error('Error creating vCard:', error);
+              showCopyMessage('Error saving contact');
+            }
+            return;
+          }
+          
+          // Handle email and address
+          if (type === 'email') {
+            link = `mailto:${value}`;
+          } else if (type === 'address') {
+            link = `https://www.google.com/maps?q=${encodeURIComponent(value)}`;
+          }
+          
+          if (link) {
+            try {
+              window.open(link, '_blank');
+            } catch (error) {
+              console.error('Error opening link:', error);
+            }
+          }
+          
+          // Copy to clipboard
+          copyToClipboard(value, type);
+        });
+      });
+    });
+
+    // Copy to clipboard function
+    function copyToClipboard(text, type) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          console.log('Copied to clipboard:', text);
+          showCopyMessage(`${type.charAt(0).toUpperCase() + type.slice(1)} copied!`);
+        }).catch(err => {
+          console.error('Failed to copy to clipboard:', err);
+          fallbackCopyToClipboard(text, type);
+        });
+      } else {
+        fallbackCopyToClipboard(text, type);
+      }
+    }
+
+    // Fallback clipboard function
+    function fallbackCopyToClipboard(text, type) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          console.log('Fallback copy successful');
+          showCopyMessage(`${type.charAt(0).toUpperCase() + type.slice(1)} copied!`);
+        }
+      } catch (err) {
+        console.error('Fallback copy failed:', err);
+        showCopyMessage('Copy failed');
+      }
+      
+      document.body.removeChild(textArea);
+    }
+
+    // Show copy message
+    function showCopyMessage(message) {
+      const copyMessage = document.getElementById('copyMessage');
+      copyMessage.textContent = message;
+      copyMessage.style.display = 'block';
+      
+      setTimeout(() => {
+        copyMessage.style.display = 'none';
+      }, 2000);
+    }
+  </script>
 </body>
+</html>
