@@ -1,4 +1,3 @@
-// Replace your existing JavaScript with this code
 document.querySelectorAll('.info-item').forEach(item => {
   item.addEventListener('click', function(e) {
     e.stopPropagation();
@@ -7,46 +6,35 @@ document.querySelectorAll('.info-item').forEach(item => {
     let link;
 
     if (type === 'phone') {
-      // Get contact details dynamically
-      const name = document.querySelector('.name').textContent.trim();
-      const emailItem = document.querySelector('.info-item[data-type="email"]');
-      const emailValue = emailItem ? emailItem.getAttribute('data-value') : '';
-      
-      // Create vCard content
-      const vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${name}\nTEL;TYPE=cell:${value}\nEMAIL:${emailValue}\nEND:VCARD`;
-      
-      // Trigger download
+      // vCard details
+      const name = "Ajit Joshi";
+      const phone = "915-855-5745";
+      const email = "ajit7275@gmail.com";
+      // vCard string
+      const vcard =
+        "BEGIN:VCARD\n" +
+        "VERSION:3.0\n" +
+        "FN:" + name + "\n" +
+        "TEL;TYPE=CELL:" + phone + "\n" +
+        "EMAIL:" + email + "\n" +
+        "END:VCARD";
+      // Create and trigger download
       const blob = new Blob([vcard], { type: "text/vcard" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `${name.replace(/\s/g, '_')}.vcf`;
+      a.download = "Ajit_Joshi.vcf";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    } else if (type === 'email') {
-      link = `mailto:${value}`;
-    } else if (type === 'address') {
-      link = `https://www.google.com/maps?q=${encodeURIComponent(value)}`;
+      return; // Stop further actions for phone
     }
 
-    // Handle other types (email/address)
-    if (type !== 'phone') {
-      if (link) window.open(link, '_blank');
-      navigator.clipboard.writeText(value).then(() => showCopyMessage(type));
-    }
+    // Existing behavior for email/address
+    if (type === 'email') link = `mailto:${value}`;
+    else if (type === 'address') link = `https://www.google.com/maps?q=${encodeURIComponent(value)}`;
+    if (link) window.open(link, '_blank');
+    navigator.clipboard.writeText(value).then(() => showCopyMessage(type));
   });
 });
-
-// Keep this function unchanged
-function showCopyMessage(type) {
-  const messages = {
-    phone: "Phone number copied!",
-    email: "Email address copied!",
-    address: "Address copied!"
-  };
-  copyMessage.textContent = messages[type] || "Copied to clipboard!";
-  copyMessage.style.display = 'block';
-  setTimeout(() => copyMessage.style.display = 'none', 1800);
-}
